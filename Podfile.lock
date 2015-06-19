@@ -1,0 +1,55 @@
+PODS:
+  - AFNetworking (2.5.4):
+    - AFNetworking/NSURLConnection (= 2.5.4)
+    - AFNetworking/NSURLSession (= 2.5.4)
+    - AFNetworking/Reachability (= 2.5.4)
+    - AFNetworking/Security (= 2.5.4)
+    - AFNetworking/Serialization (= 2.5.4)
+    - AFNetworking/UIKit (= 2.5.4)
+  - AFNetworking/NSURLConnection (2.5.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.4)
+  - AFNetworking/Security (2.5.4)
+  - AFNetworking/Serialization (2.5.4)
+  - AHLaunchCtl (0.4.3)
+  - CDEvents (1.2.2)
+  - Objective-CUPS (0.2.1)
+  - ReactiveCocoa (2.5):
+    - ReactiveCocoa/UI (= 2.5)
+  - ReactiveCocoa/Core (2.5):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.5)
+  - ReactiveCocoa/UI (2.5):
+    - ReactiveCocoa/Core
+  - Sparkle (1.10.0)
+  - XMLDictionary (1.4)
+
+DEPENDENCIES:
+  - AFNetworking (~> 2.5.4)
+  - AHLaunchCtl (~> 0.3)
+  - CDEvents (~> 1.2.2)
+  - Objective-CUPS (from `/Volumes/myHome/Users/eldon/Desktop/myGit/Frameworks/Objective-CUPS`)
+  - ReactiveCocoa (~> 2.5)
+  - Sparkle (~> 1.8)
+  - XMLDictionary (~> 1.4)
+
+EXTERNAL SOURCES:
+  Objective-CUPS:
+    :path: /Volumes/myHome/Users/eldon/Desktop/myGit/Frameworks/Objective-CUPS
+
+SPEC CHECKSUMS:
+  AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
+  AHLaunchCtl: 0de6774f41967f8018d9ce6a01e6d60c1ee1e6b6
+  CDEvents: f311f23de13414f4b3625f1a663b2e1d9a85d982
+  Objective-CUPS: c16f04180bfce689befcf7bdeb6453e91f4e712c
+  ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
+  Sparkle: c859bf5283b9f12aa45bceccf8e25ebb4c008eb2
+  XMLDictionary: f9f51601ba76678b594ab485f2b00ec1fed23724
+
+COCOAPODS: 0.35.0

@@ -11,10 +11,7 @@
 @class RACSignal;
 @interface PPConfigureViewController : NSViewController
 
-@property (copy, nonatomic, readonly) RACSignal *subscribeEnabledSignal;
-@property (copy, nonatomic, readonly) RACSignal *serverURLSignal;
-@property (copy, nonatomic, readonly) RACSignal *enableBonjourEnabledSignal;
-@property (copy, nonatomic, readonly) RACSignal *launchAtLoginEnabledSignal;
-
+@property (weak) IBOutlet NSButton *closeConfigWindow_button;
+@property (weak) NSPopover *controllingPopover;
 
 @end

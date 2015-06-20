@@ -19,15 +19,16 @@
 @implementation NSWindow (canBecomeKeyWindow)
 
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
-- (BOOL)canBecomeKeyWindow
-{
-    if([self class]==NSClassFromString(@"NSStatusBarWindow")){
+#pragma clang diagnostic ignored \
+    "-Wobjc-protocol-method-implementation"
+- (BOOL)canBecomeKeyWindow {
+    Class c = [self class];
+    if ((c == NSClassFromString(@"NSStatusBarWindow")) ||
+        (c == NSClassFromString(@"_NSPopoverWindow"))) {
         return YES;
     }
     return NO;
 }
 #pragma clang diagnostic pop
-
 
 @end

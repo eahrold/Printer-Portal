@@ -17,12 +17,6 @@ static const NSInteger PPMenuItemNotFound = -1;
 @interface PPStatusItem ()<NSPopoverDelegate>
 @end
 
-static NSRect statusBarRect(){
-    float ImageViewWidth = 22;
-    CGFloat height = [NSStatusBar systemStatusBar].thickness;
-    return NSMakeRect(0, 0, ImageViewWidth, height);
-}
-
 typedef NS_OPTIONS(NSInteger, PPMenuTags) {
     kPPMenuSubMenuTag_bonjour = 100 << 1,
     kPPMenuSeperatorTag_primary = 100 << 10,
@@ -33,30 +27,25 @@ typedef NS_OPTIONS(NSInteger, PPMenuTags) {
 @implementation PPStatusItem {
     NSStatusItem *_statusItem;
     PPPrinterManager *_printerManager;
-    NSImageView *_imageView;
-    BOOL          _active;
 
+    NSButton *__button;
 }
 
 
 - (instancetype)init_{
-
-    if (self = [super initWithFrame:statusBarRect()]) {
-        _imageView = [[NSImageView alloc] initWithFrame:self.frame];
-        _imageView.image = [NSImage imageNamed:@"StatusBarIcon"];
-        [self addSubview:_imageView];
-
+    if (self = [super init]) {
         _statusItem = [[NSStatusBar systemStatusBar]
                        statusItemWithLength:NSVariableStatusItemLength];
 
+        _statusItem.image = [NSImage imageNamed:@"StatusBarIcon"];
+        _statusItem.highlightMode = YES;
+
+        // We've got to access the private property
+        // here to present the popver agains...
+        __button = [_statusItem valueForKey:@"_button"];
+
         _statusItem.menu = [[NSMenu alloc] init];
         _statusItem.menu.delegate = self;
-        _statusItem.image = _imageView.image;
-
-        _statusItem.view = self;
-
-        [self setActive:NO];
-
     }
     return self;
 }
@@ -100,48 +89,6 @@ typedef NS_OPTIONS(NSInteger, PPMenuTags) {
     return self;
 }
 
-#pragma mark - NSView
-- (NSMenu *)menuForEvent:(NSEvent *)theEvent {
-    NSLog(@"%@", theEvent);
-    return _statusItem.menu;
-}
-
-- (void)mouseDown:(NSEvent *)theEvent
-{
-    NSLog(@"%@", theEvent);
-
-    [self setActive:YES];
-    [_statusItem popUpStatusItemMenu:_statusItem.menu];
-
-}
-- (void)mouseUp:(NSEvent *)theEvent {
-    [self setActive:NO];
-}
-
-- (void)setActive:(BOOL)active {
-    _active = active;
-    self.needsDisplay = YES;
-}
-
-- (void)drawRect:(NSRect)dirtyRect
-{
-    if (_active) {
-        [[NSColor selectedMenuItemColor] setFill];
-        NSRectFill(dirtyRect);
-    } else {
-        [[NSColor clearColor] setFill];
-        NSRectFill(dirtyRect);
-    }
-}
-
-#pragma mark - Menu delegate
-- (void)menuDidClose:(NSMenu *)menu {
-    [self setActive:NO];
-}
-
-- (void)menuWillOpen:(NSMenu *)menu {
-    [self setActive:YES];
-}
 
 #pragma mark - Printer Lists UI
 - (void)setPrinterList:(NSArray *)printerList {
@@ -222,21 +169,23 @@ typedef NS_OPTIONS(NSInteger, PPMenuTags) {
 
 #pragma mark - Config view
 - (void)displayConfigurationView:(id)sender {
-    PPConfigureViewController *controller = [PPConfigureViewController new];
     NSPopover *popover = [[NSPopover alloc] init];
+
+    PPConfigureViewController *controller = [PPConfigureViewController new];
+    controller.controllingPopover = popover;
+    
     popover.contentViewController = controller;
     popover.delegate = self;
 
     popover.behavior = NSPopoverBehaviorTransient;
-    [popover showRelativeToRect:self.frame
-                         ofView:self
+    [popover showRelativeToRect:__button.frame
+                         ofView:__button
                   preferredEdge:NSMaxYEdge];
-
-    [self setActive:YES];
 }
 
 - (void)popoverDidClose:(NSNotification *)notification {
-    [self setActive:NO];
+    __button.enabled = NO;
+    __button.enabled = YES;
 }
 
 #pragma mark - Util

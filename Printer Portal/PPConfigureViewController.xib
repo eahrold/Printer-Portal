@@ -7,6 +7,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PPConfigureViewController">
             <connections>
+                <outlet property="closeConfigWindow_button" destination="dqd-hk-X5I" id="w0g-Vq-ebq"/>
+                <outlet property="errorMessage_textField" destination="rJI-We-He3" id="jo9-hQ-d4G"/>
                 <outlet property="serverSet_button" destination="Ygl-wR-WpQ" id="zvN-g3-Zbj"/>
                 <outlet property="serverURL_textField" destination="hrD-J7-emW" id="cZb-sd-2Sz"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
@@ -15,11 +17,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="1" width="520" height="158"/>
+            <rect key="frame" x="0.0" y="-1" width="520" height="181"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OZ2-6o-ATo">
-                    <rect key="frame" x="18" y="121" width="460" height="17"/>
+                    <rect key="frame" x="18" y="144" width="460" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Please enter the server address or group code:" id="Cvr-nu-9kM">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -27,7 +29,7 @@
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hrD-J7-emW">
-                    <rect key="frame" x="21" y="92" width="479" height="22"/>
+                    <rect key="frame" x="21" y="115" width="479" height="22"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="zr9-ho-WiR">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -35,7 +37,7 @@
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ygl-wR-WpQ">
-                    <rect key="frame" x="422" y="22" width="84" height="32"/>
+                    <rect key="frame" x="422" y="17" width="84" height="32"/>
                     <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="94G-Rj-6wk">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -45,14 +47,14 @@ DQ
                     </buttonCell>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dqd-hk-X5I">
-                    <rect key="frame" x="341" y="22" width="82" height="32"/>
+                    <rect key="frame" x="341" y="17" width="82" height="32"/>
                     <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vPj-K6-aBO">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U7X-Sf-rpx">
-                    <rect key="frame" x="18" y="51" width="160" height="18"/>
+                    <rect key="frame" x="18" y="61" width="160" height="18"/>
                     <buttonCell key="cell" type="check" title="Show Bonjour Printers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hiK-m2-aCD">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -66,7 +68,7 @@ DQ
                     </connections>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tPd-bb-J6s">
-                    <rect key="frame" x="217" y="51" width="124" height="18"/>
+                    <rect key="frame" x="19" y="41" width="124" height="18"/>
                     <buttonCell key="cell" type="check" title="Subscribe" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="FnD-0S-ITS">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -80,7 +82,7 @@ DQ
                     </connections>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tlh-Pj-W1g">
-                    <rect key="frame" x="19" y="27" width="124" height="18"/>
+                    <rect key="frame" x="19" y="21" width="124" height="18"/>
                     <buttonCell key="cell" type="check" title="Launch At Login" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="E42-x1-UCh">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -93,8 +95,16 @@ DQ
                         </binding>
                     </connections>
                 </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rJI-We-He3">
+                    <rect key="frame" x="21" y="90" width="481" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="2Jm-KO-0Xu">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
-            <point key="canvasLocation" x="300" y="281"/>
+            <point key="canvasLocation" x="300" y="292.5"/>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="sPh-HU-yPk"/>
     </objects>

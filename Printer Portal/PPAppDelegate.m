@@ -46,7 +46,6 @@
 }
 
 - (void)applicationDidResignActive:(NSNotification *)notification {
-    [_statusItem setActive:NO];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

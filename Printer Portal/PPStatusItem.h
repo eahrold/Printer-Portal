@@ -10,7 +10,7 @@
 #import "PPObject.h"
 @class PPPrinterManager;
 
-@interface PPStatusItem : NSView <NSMenuDelegate, NSWindowDelegate>
+@interface PPStatusItem : NSObject <NSMenuDelegate>
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithPrinterManager:(PPPrinterManager *)manager;
@@ -18,6 +18,4 @@
 // Array of OCPrinters
 @property (strong, nonatomic) NSArray *printerList;
 @property (strong, nonatomic) NSArray *bonjourPrinterList;
--(void)setActive:(BOOL)active;
-
 @end

@@ -15,6 +15,8 @@ typedef NS_ENUM(NSInteger, PPErrorCode) {
     kPPErrorCouldNotAddLoginItem,
     kPPErrorCouldNotInstallHelper,
     kPPErrorServerURLInvalid,
+    kPPErrorCouldNotEnableSubscriptions,
+    kPPErrorCouldNotEnableBonjour,
 };
 
 NSError *PPErrorFromCode(PPErrorCode code);

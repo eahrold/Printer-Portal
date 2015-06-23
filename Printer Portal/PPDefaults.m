@@ -60,6 +60,7 @@ NSString *const kPPDefaultsKey_unsubscribe = @"unsubscribe";
     [_defaults setValue:ServerURL forKey:NSStringFromSelector(@selector(ServerURL))];
 }
 
+#pragma mark - Current / Previously installed printers...
 - (NSArray *)CurrentPrinters {
     return [_defaults arrayForKey:NSStringFromSelector(@selector(CurrentPrinters))];
 }
@@ -68,4 +69,13 @@ NSString *const kPPDefaultsKey_unsubscribe = @"unsubscribe";
     [_defaults setValue:CurrentPrinters forKey:NSStringFromSelector(@selector(CurrentPrinters))];
 }
 
+#pragma mark - Bonjour
+
+- (BOOL)ShowBonjourPrinters {
+    return [_defaults boolForKey:NSStringFromSelector(@selector(ShowBonjourPrinters))];
+}
+
+- (void)setShowBonjourPrinters:(BOOL)ShowBonjourPrinters {
+    [_defaults setBool:ShowBonjourPrinters forKey:NSStringFromSelector(@selector(ShowBonjourPrinters))];
+}
 @end

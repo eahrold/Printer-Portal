@@ -148,15 +148,8 @@
 				BE52D5271B3470F8003B5E12 /* Base Subclasses */,
 				BE52D4FC1B346176003B5E12 /* PPAppDelegate.h */,
 				BE52D4FD1B346176003B5E12 /* PPAppDelegate.m */,
-				BE52D52B1B34914D003B5E12 /* PPListManager.h */,
-				BE52D52C1B34914D003B5E12 /* PPListManager.m */,
-				BE52D5281B3483FF003B5E12 /* PPPrinterManager.h */,
-				BE52D5291B3483FF003B5E12 /* PPPrinterManager.m */,
-				BEDAFB9F1B389F2700CCE9AC /* PPBonjourBrowser.h */,
-				BEDAFBA01B389F2700CCE9AC /* PPBonjourBrowser.m */,
-				BEDAFB911B36F04400CCE9AC /* Status Item */,
-				BE52D52E1B34A8DE003B5E12 /* PPErrorHandler.h */,
-				BE52D52F1B34A8DE003B5E12 /* PPErrorHandler.m */,
+				BEDAFBAC1B39FD5F00CCE9AC /* Models */,
+				BEDAFB911B36F04400CCE9AC /* Views-View Models */,
 				BE52D5011B346176003B5E12 /* Images.xcassets */,
 				BE52D5251B3470AE003B5E12 /* StatusBarIcon.png */,
 				BE52D5031B346176003B5E12 /* MainMenu.xib */,
@@ -206,20 +199,20 @@
 			name = "Base Subclasses";
 			sourceTree = "<group>";
 		};
-		BEDAFB911B36F04400CCE9AC /* Status Item */ = {
+		BEDAFB911B36F04400CCE9AC /* Views-View Models */ = {
 			isa = PBXGroup;
 			children = (
 				BEDAFB8E1B36EFAC00CCE9AC /* PPStatusItemViewModel.h */,
 				BEDAFB8F1B36EFAC00CCE9AC /* PPStatusItemViewModel.m */,
 				BE52D5221B346A79003B5E12 /* PPStatusItemView.h */,
 				BE52D5231B346A79003B5E12 /* PPStatusItemView.m */,
-				BE52D51D1B3465D1003B5E12 /* PPConfigureViewController.h */,
 				BEDAFBA91B38D96600CCE9AC /* PPConfigureViewModel.h */,
 				BEDAFBAA1B38D96600CCE9AC /* PPConfigureViewModel.m */,
+				BE52D51D1B3465D1003B5E12 /* PPConfigureViewController.h */,
 				BE52D51E1B3465D1003B5E12 /* PPConfigureViewController.m */,
 				BE52D51F1B3465D1003B5E12 /* PPConfigureViewController.xib */,
 			);
-			name = "Status Item";
+			name = "Views-View Models";
 			sourceTree = "<group>";
 		};
 		BEDAFB971B384D8200CCE9AC /* Categories */ = {
@@ -233,6 +226,21 @@
 				BEDAFB991B384FE400CCE9AC /* OCSubscriptionPriner.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		BEDAFBAC1B39FD5F00CCE9AC /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BE52D52E1B34A8DE003B5E12 /* PPErrorHandler.h */,
+				BE52D52F1B34A8DE003B5E12 /* PPErrorHandler.m */,
+				BE52D52B1B34914D003B5E12 /* PPListManager.h */,
+				BE52D52C1B34914D003B5E12 /* PPListManager.m */,
+				BE52D5281B3483FF003B5E12 /* PPPrinterManager.h */,
+				BE52D5291B3483FF003B5E12 /* PPPrinterManager.m */,
+				BEDAFB9F1B389F2700CCE9AC /* PPBonjourBrowser.h */,
+				BEDAFBA01B389F2700CCE9AC /* PPBonjourBrowser.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		E9DC85F21D810CC2AEC04456 /* Frameworks */ = {

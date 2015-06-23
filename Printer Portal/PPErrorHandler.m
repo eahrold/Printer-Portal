@@ -9,8 +9,6 @@
 #import "PPErrorHandler.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
-static NSString *const messageKey = @"message";
-static NSString *const detailsKey = @"details";
 
 static NSDictionary* userInfoForCode(PPErrorCode code){
     static dispatch_once_t onceToken;
@@ -18,17 +16,23 @@ static NSDictionary* userInfoForCode(PPErrorCode code){
     dispatch_once(&onceToken, ^{
     dict = @{
              @(kPPErrorSuccess):
-                 @{ messageKey : NSLocalizedString(@"Success!", nil),
-                    detailsKey : NSLocalizedString(@"All's well", nil)},
+                 @{ NSLocalizedDescriptionKey : NSLocalizedString(@"Success!", nil),
+                    NSLocalizedRecoverySuggestionErrorKey : @""},
              @(kPPErrorCouldNotAddLoginItem):
-                 @{ messageKey : NSLocalizedString(@"Could not add login item", nil),
-                    detailsKey : NSLocalizedString(@"There was a problem adding the login item", nil)},
+                 @{ NSLocalizedDescriptionKey : NSLocalizedString(@"Could not add login item.", nil),
+                    NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString(@"There was a problem adding the login item.", nil)},
              @(kPPErrorCouldNotInstallHelper):
-                 @{ messageKey : NSLocalizedString(@"The helper tool could not be installed", nil),
-                    detailsKey : NSLocalizedString(@"We cannot continue, quitting.", nil)},
+                 @{ NSLocalizedDescriptionKey : NSLocalizedString(@"The helper tool could not be installed.", nil),
+                    NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString(@"We cannot continue, quitting..", nil)},
              @(kPPErrorServerURLInvalid):
-                 @{messageKey : NSLocalizedString(@"The specified url is not valid", nil),
-                   detailsKey : NSLocalizedString(@"Please verify the url is correct", nil)},
+                 @{NSLocalizedDescriptionKey : NSLocalizedString(@"The specified url is not valid", nil),
+                   NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString(@"Please verify the url is correct.", nil)},
+             @(kPPErrorCouldNotEnableBonjour):
+                 @{NSLocalizedDescriptionKey : NSLocalizedString(@"There was a problem enabling bonjour.", nil),
+                   NSLocalizedRecoverySuggestionErrorKey : @""},
+             @(kPPErrorCouldNotEnableSubscriptions):
+                 @{NSLocalizedDescriptionKey : NSLocalizedString(@"The was a problem subscribing at the given address.", nil),
+                   NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString(@"Unable to find a subscription list at the give address, please contact the System Administrator for more information", nil)},
              };
     });
 
@@ -71,6 +75,7 @@ NSError *PPErrorFromCode(PPErrorCode code) {
 }
 
 - (void)registerErrorWithCode:(PPErrorCode)code {
+
     self.currentError = [NSError errorWithDomain:[[NSProcessInfo processInfo] processName] code:code userInfo:userInfoForCode(code)];
 }
 @end

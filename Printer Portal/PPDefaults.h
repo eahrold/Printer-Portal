@@ -15,10 +15,10 @@ extern NSString *const kPPDefaultsKey_unsubscribe;
 
 @property (copy, nonatomic) NSString *ServerURL;
 @property (copy, nonatomic) NSArray *CurrentPrinters;
-@property (nonatomic) BOOL Subscribe;
 @property (copy, nonatomic) NSString *SubscriptionHost;
 @property (copy, nonatomic, readonly) NSString *SubscriptionURL;
 
+@property (nonatomic) BOOL Subscribe;
 @property (nonatomic) BOOL ShowBonjourPrinters;
 
 @property (copy, readonly) NSUserDefaults *defaults;

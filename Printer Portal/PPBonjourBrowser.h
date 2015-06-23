@@ -14,5 +14,8 @@
 @interface PPBonjourBrowser : NSNetServiceBrowser <NSNetServiceBrowserDelegate, NSNetServiceDelegate>
 
 @property (copy, nonatomic) NSArray *bonjourPrinters;
+@property BOOL isSearching;
+
+- (void)start;
 
 @end

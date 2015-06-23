@@ -11,6 +11,7 @@
 
 #import "PPPrinterManager.h"
 #import "PPConfigureViewController.h"
+#import "PPConfigureViewModel.h"
 
 #import <Objective-CUPS/OCPrinter.h>
 
@@ -197,10 +198,11 @@ typedef NS_OPTIONS(NSInteger, PPMenuTags) {
 - (void)displayConfigurationView:(id)sender {
     NSPopover *popover = [[NSPopover alloc] init];
 
-    PPConfigureViewController *controller = [[PPConfigureViewController alloc] initWithListManager:_viewModel.listManager];
-    
+    PPConfigureViewModel *viewModel = [[PPConfigureViewModel alloc] initWithListManager:_viewModel.listManager];
+
+    PPConfigureViewController *controller = [[PPConfigureViewController alloc] initWithViewModel:viewModel];
+
     controller.controllingPopover = popover;
-    
     popover.contentViewController = controller;
     popover.delegate = self;
 

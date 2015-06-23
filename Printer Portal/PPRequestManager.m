@@ -56,6 +56,13 @@
 @implementation PPRequestManager
 +(PPRequestManager *)manager {
     PPRequestManager *manager = [super manager];
+
+    // Setup request serializer
+    AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
+    requestSerializer.timeoutInterval = 5;
+    
+    manager.requestSerializer = requestSerializer;
+
     // Set up the legacy serializer.
     AFPropertyListResponseSerializer *legacySerializer = [AFPropertyListResponseSerializer serializer];
     legacySerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",

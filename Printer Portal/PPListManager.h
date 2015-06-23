@@ -21,7 +21,11 @@ typedef NS_OPTIONS(NSInteger, ListRequestType) {
 @property (copy, nonatomic, readonly) RACSignal *subscriptionListSignal;
 
 - (RACSignal *)configureServerURL_signal:(NSString *)url;
-- (RACSignal *)enableSubscription_signal:(BOOL)enable;
-- (RACSignal *)enableBonjour_signal:(BOOL)enable;
+
+@property (nonatomic, readonly) BOOL subscriptionsEnabled;
+- (RACSignal *)enableSubscription_signal;
+
+@property (nonatomic, readonly) BOOL bonjourEnabled;
+- (RACSignal *)enableBonjour_signal;
 
 @end

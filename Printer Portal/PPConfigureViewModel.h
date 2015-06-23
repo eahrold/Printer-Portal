@@ -8,16 +8,38 @@
 
 #import <Foundation/Foundation.h>
 @class NSPopover;
+@class PPListManager;
+@class RACSignal;
+@class PPConfigureViewController;
 
 @interface PPConfigureViewModel : NSObject
 
-@property (assign, nonatomic) BOOL bonjourListEnabled;
-@property (assign, nonatomic) BOOL subscriptionEnabled;
-@property (assign, nonatomic) BOOL launchAtLoginEnabled;
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 
+- (instancetype)initWithListManager:(PPListManager *)listManager;
+
+@property (nonatomic, readonly) BOOL bonjourEnabled;
+@property (nonatomic, readonly) BOOL subscriptionEnabled;
+@property (nonatomic, readonly) BOOL launchAtLoginEnabled;
+
+@property (nonatomic, readonly) BOOL serverURLIsValid;
 @property (copy, nonatomic) NSString *serverURL;
 
-@property (copy, nonatomic) NSString *errorMessage;
+/* Short error to present in the user interface */
+@property (copy, nonatomic, readonly) NSError *uiError;
 
-@property (weak) NSPopover *controllingPopover;
+/* Actual error received during processing */
+@property (copy, nonatomic, readonly) NSError *executionError;
+
+@property (nonatomic, readonly) BOOL isProcessing;
+
+@property (strong, readonly) PPConfigureViewController *controller;
+
+- (RACSignal *)configurePrinterListSignal;
+
+- (void)enableSubscription;
+- (void)enableBonjourPrinters;
+- (void)launchAtLogin;
+
 @end

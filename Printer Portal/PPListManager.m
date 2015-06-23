@@ -27,6 +27,8 @@
 @property (copy, nonatomic) NSArray *installedPrinters;
 @property (strong, nonatomic) PPBonjourBrowser *bonjourBrowser;
 
+@property (nonatomic, readwrite) BOOL bonjourEnabled;
+
 @end
 
 @implementation PPListManager {
@@ -53,13 +55,26 @@
         [[AFNetworkReachabilityManager sharedManager] startMonitoring];
 
         _defaults = [[PPDefaults alloc] init];
+        _bonjourBrowser = [[PPBonjourBrowser alloc] init];
 
         self.printerList = _defaults.CurrentPrinters;
         self.serverURL = _defaults.ServerURL;
 
+        if (_defaults.ShowBonjourPrinters) {
+            [_bonjourBrowser start];
+        }
+
         RAC(_defaults, CurrentPrinters) = RACObserve(self, printerList);
         RAC(_defaults, ServerURL) = RACObserve(self, serverURL);
+        RAC(_defaults, ShowBonjourPrinters) = RACObserve(self, bonjourEnabled);
 
+        RAC(self, bonjourEnabled) = RACObserve(self.bonjourBrowser, isSearching);
+        RAC(self, bonjourPrinterList) = RACObserve(self.bonjourBrowser, bonjourPrinters);
+
+        RAC(self, subscriptionsEnabled, @(_defaults.Subscribe)) = [[RACObserve(self, subscriptionPrinterList) skip:1] map:^id(id value) {
+            return [NSNumber numberWithBool:(value != nil)];
+        }];
+        
     }
     return self;
 }
@@ -99,7 +114,7 @@
 - (void)networkStatusChanged:(AFNetworkReachabilityStatus)status {
     if (status > AFNetworkReachabilityStatusNotReachable) {
         [[[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
-            return [self enableSubscription_signal:_defaults.Subscribe];
+            return [self enableSubscription_signal];
         }] execute:self];
     } else {
         self.bonjourPrinterList = nil;
@@ -119,20 +134,23 @@
             stringByReplacingOccurrencesOfString:@"printerportal"
                                       withString:@"http"];
 
-    BOOL enabled = NO;
     BOOL subscriptionEvent = NO;
     if ([urlString.lastPathComponent isEqualToString:kPPDefaultsKey_subscribe]) {
-        enabled = YES;
+        _subscriptionsEnabled = YES;
         subscriptionEvent = YES;
     } else if ([urlString.lastPathComponent isEqualToString:kPPDefaultsKey_unsubscribe]){
-        enabled = NO;
+        _subscriptionsEnabled = NO;
         subscriptionEvent = YES;
     }
 
     if (subscriptionEvent) {
         _defaults.SubscriptionHost = urlString;
         [[[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
-            return [self enableSubscription_signal:enabled];
+            return [self enableSubscription_signal];
+        }] execute:self];
+    } else {
+        [[[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+            return [self configureServerURL_signal:urlString];
         }] execute:self];
     }
 }
@@ -150,9 +168,10 @@
     return signal;
 }
 
-- (RACSignal *)enableSubscription_signal:(BOOL)enable {
+- (RACSignal *)enableSubscription_signal {
     RACSignal *signal = nil;
-    if (enable == NO) {
+    // Toggle ON/OFF
+    if (_subscriptionsEnabled) {
         signal = [RACSignal empty];
         self.subscriptionPrinterList = nil;
     } else {
@@ -166,19 +185,14 @@
             }
         }];
     }
-
     return signal;
 }
 
-- (RACSignal *)enableBonjour_signal:(BOOL)enable {
-    if (!enable) {
-        self.bonjourPrinterList = nil;
-        _bonjourBrowser = nil;
+- (RACSignal *)enableBonjour_signal {
+    if (_bonjourEnabled) {
+        [self.bonjourBrowser stop];
     } else {
-        if (!_bonjourBrowser) {
-            _bonjourBrowser = [[PPBonjourBrowser alloc] init];
-            RAC(self, bonjourPrinterList) = RACObserve(_bonjourBrowser, bonjourPrinters);
-        }
+        [self.bonjourBrowser start];
     }
     return [RACSignal empty];
 }

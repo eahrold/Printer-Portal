@@ -14,7 +14,10 @@ typedef NS_ENUM(NSInteger, PPErrorCode) {
     kPPErrorSuccess = 0,
     kPPErrorCouldNotAddLoginItem,
     kPPErrorCouldNotInstallHelper,
+    kPPErrorServerURLInvalid,
 };
+
+NSError *PPErrorFromCode(PPErrorCode code);
 
 @interface PPErrorHandler : NSObject
 + (instancetype)sharedErrorHandler;
@@ -25,5 +28,6 @@ typedef NS_ENUM(NSInteger, PPErrorCode) {
 
 - (void)registerError:(NSError *)error;
 - (void)registerErrorWithCode:(PPErrorCode)code;
+
 
 @end

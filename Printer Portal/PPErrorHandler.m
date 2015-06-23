@@ -12,7 +12,7 @@
 static NSString *const messageKey = @"message";
 static NSString *const detailsKey = @"details";
 
-static NSDictionary* errorFromCode(PPErrorCode code){
+static NSDictionary* userInfoForCode(PPErrorCode code){
     static dispatch_once_t onceToken;
     static NSDictionary *dict;
     dispatch_once(&onceToken, ^{
@@ -26,11 +26,20 @@ static NSDictionary* errorFromCode(PPErrorCode code){
              @(kPPErrorCouldNotInstallHelper):
                  @{ messageKey : NSLocalizedString(@"The helper tool could not be installed", nil),
                     detailsKey : NSLocalizedString(@"We cannot continue, quitting.", nil)},
+             @(kPPErrorServerURLInvalid):
+                 @{messageKey : NSLocalizedString(@"The specified url is not valid", nil),
+                   detailsKey : NSLocalizedString(@"Please verify the url is correct", nil)},
              };
     });
 
     return dict[@(code)] ?: @{};
 }
+
+NSError *PPErrorFromCode(PPErrorCode code) {
+    return [NSError errorWithDomain:[[NSProcessInfo processInfo] processName]
+                               code:code userInfo:userInfoForCode(code)];
+}
+
 
 @interface PPErrorHandler()
 @property (copy, nonatomic) NSError *currentError;
@@ -62,6 +71,6 @@ static NSDictionary* errorFromCode(PPErrorCode code){
 }
 
 - (void)registerErrorWithCode:(PPErrorCode)code {
-    self.currentError = [NSError errorWithDomain:[[NSProcessInfo processInfo] processName] code:code userInfo:errorFromCode(code)];
+    self.currentError = [NSError errorWithDomain:[[NSProcessInfo processInfo] processName] code:code userInfo:userInfoForCode(code)];
 }
 @end

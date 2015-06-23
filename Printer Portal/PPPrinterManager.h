@@ -10,7 +10,6 @@
 @interface PPPrinterManager : PPObject
 
 - (void)changePrinterState:(id)sender;
-
 - (void)manageSubscriptionList:(NSArray *)subscriptionList;
 
 @end

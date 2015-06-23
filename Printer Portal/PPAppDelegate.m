@@ -7,7 +7,7 @@
 //
 
 #import "PPAppDelegate.h"
-#import "PPStatusItem.h"
+#import "PPStatusItemViewModel.h"
 #import "PPPrinterManager.h"
 #import "PPListManager.h"
 
@@ -20,7 +20,7 @@
 @end
 
 @implementation PPAppDelegate {
-    PPStatusItem *_statusItem;
+    PPStatusItemViewModel *_statusItem;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -28,10 +28,8 @@
     PPPrinterManager *printerManager = [[PPPrinterManager alloc] init];
     PPListManager *listManager = [[PPListManager alloc] init];
 
-    _statusItem = [[PPStatusItem alloc] initWithPrinterManager:printerManager];
-
-    RAC(_statusItem, bonjourPrinterList) = listManager.bonjourListSignal;
-    RAC(_statusItem, printerList) = listManager.printerListSignal;
+    _statusItem = [[PPStatusItemViewModel alloc] initWithPrinterManager:printerManager
+                                                            listManager:listManager];
 
     [listManager.subscriptionListSignal subscribeNext:^(NSArray *list) {
         [printerManager manageSubscriptionList:list];

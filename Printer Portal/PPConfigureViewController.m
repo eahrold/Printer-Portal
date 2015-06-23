@@ -7,27 +7,34 @@
 //
 
 #import "PPConfigureViewController.h"
-#import "PPDefaults.h"
-#import "PPRequestManager.h"
+#import "PPListManager.h"
 
+#import "NSTextField+AnimatedString.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface PPConfigureViewController ()
-
-@property (weak) IBOutlet NSTextField* serverURL_textField;
-@property (weak) IBOutlet NSTextField* errorMessage_textField;
-
-@property (weak) IBOutlet NSButton* serverSet_button;
-
-@property(nonatomic, strong) RACSignal *urlValidSignal;
-
+@property (weak) IBOutlet NSTextField *serverURL_textField;
+@property (weak) IBOutlet NSTextField *errorMessage_textField;
+@property (weak) IBOutlet NSButton *serverSet_button;
+@property (weak) IBOutlet NSButton *launchAtLogin_button;
+@property (weak) IBOutlet NSButton *subscribe_button;
+@property (weak) IBOutlet NSButton *showBonjourPrinters_button;
 @end
 
-@implementation PPConfigureViewController
+@implementation PPConfigureViewController {
+    PPListManager *_listManager;
+}
 
-- (instancetype)init {
+- (instancetype)init_ {
     if (self = [super initWithNibName:[self className] bundle:nil]) {
         // Do setup
+    }
+    return self;
+}
+
+- (instancetype)initWithListManager:(PPListManager *)listManager {
+    if (self = [self init_]) {
+        _listManager = listManager;
     }
     return self;
 }
@@ -38,65 +45,79 @@
 }
 
 - (void)awakeFromNib {
-    PPDefaults *defaults = [PPDefaults new];
-    self.serverURL_textField.stringValue = defaults.ServerURL;
+    [self bindServerURL];
+    [self bindLaunchAtLogin];
+    [self bindEnableSubscriptions];
+    [self bindEnableBonjourBrowser];
+}
+
+- (void)bindServerURL {
+    RAC(self.serverURL_textField, stringValue) = RACObserve(_listManager, serverURL);
 
     if (_controllingPopover) {
         self.closeConfigWindow_button.target = _controllingPopover;
         self.closeConfigWindow_button.action = @selector(close);
     }
 
-    RACCommand *serverCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
-        return [self testURLSignal];
+
+    // Enabled signal for the "set" button....
+    RACSignal *enabled = [RACSignal combineLatest:@[ self.serverURL_textField.rac_textSignal ] reduce:^id(NSString *url) {
+        BOOL valid = ([url rangeOfString:@"://"].location != NSNotFound) &&
+        ([url componentsSeparatedByString:@"."].count > 1);
+        return @(valid);
+    }];
+
+    RACCommand *serverCommand = [[RACCommand alloc] initWithEnabled:enabled signalBlock:^RACSignal * (id input) {
+        return [_listManager configureServerURL_signal:self.serverURL_textField.stringValue];
     }];
 
     self.serverSet_button.rac_command = serverCommand;
 
+    RACSignal *errorSignal = [serverCommand.errors subscribeOn:[RACScheduler mainThreadScheduler]];
 
-    RAC(self.errorMessage_textField, stringValue, @"") = [serverCommand.errors map:^NSString *(NSError *error) {
-        return error.localizedDescription;
+    RACSignal *successSignal = [errorSignal filter:^BOOL(id value) {
+        return (value == nil);
     }];
 
-    RAC(self.errorMessage_textField, textColor, [NSColor controlTextColor]) = [serverCommand.errors map:^NSColor *(NSError *error) {
+    RAC(self.errorMessage_textField, stringValue, @"") = [errorSignal map:^NSString *(NSError * error) {
+        if (error) {
+            return error.localizedDescription;
+        } else {
+            return NSLocalizedString(@"Successfully updated printer list.", @"Config pannel message when a valid response was received from the server");
+        }
+    }];
+
+    RAC(self.errorMessage_textField, fadeOut) = [successSignal map:^id(id value) {
+        return @((value == nil));
+    }];
+
+    RAC(self.serverURL_textField, textColor, [NSColor controlTextColor]) = [errorSignal map:^NSColor * (NSError * error) {
         return error ? [NSColor redColor] : [NSColor blackColor];
     }];
 
-    [serverCommand.executionSignals subscribeNext:^(RACSignal *signal) {
-        [[signal  filter:^BOOL(id value) {
-            //
-            return YES;
-        } ] subscribeNext:^(NSDictionary *dict) {
-            //
-            NSLog(@"got dict");
-        } completed:^{
-            NSLog(@"complete");
-        }];
-    } error:^(NSError *error) {
-        NSLog(@"EXESig Error %@", error);
+}
+
+- (void)bindLaunchAtLogin {
+
+}
+
+- (void)bindEnableSubscriptions {
+    RACCommand *command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+        return [_listManager enableSubscription_signal:self.subscribe_button.state];
     }];
 
-
+    self.subscribe_button.rac_command = command;
+    RAC(self.subscribe_button, state) = [_listManager.subscriptionListSignal map:^id(id value) {
+        return @(value != nil);
+    }];
 }
 
-- (RACSignal *)testURLSignal {
-    return  [[RACSignal startLazilyWithScheduler:[RACScheduler scheduler] block:^(id<RACSubscriber> subscriber) {
+- (void)bindEnableBonjourBrowser {
+    RACCommand *command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+        return [_listManager enableBonjour_signal:self.showBonjourPrinters_button.state];
+    }];
 
-        [[PPRequestManager manager] GET:self.serverURL_textField.stringValue parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            [subscriber sendNext:responseObject];
-            [subscriber sendError:nil];
-            [subscriber sendCompleted];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [subscriber sendError:error];
-            [subscriber sendCompleted];
-        }];
-    }] deliverOnMainThread];
+    self.showBonjourPrinters_button.rac_command = command;
 }
 
-- (RACSignal *)urlValidSignal {
-    if (!_urlValidSignal) {
-        _urlValidSignal = RACObserve(self.serverURL_textField, stringValue);
-    }
-    return _urlValidSignal;
-    
-}
 @end

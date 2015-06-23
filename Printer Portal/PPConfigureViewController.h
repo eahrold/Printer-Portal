@@ -8,8 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class RACSignal;
+@class RACSignal, PPListManager;
 @interface PPConfigureViewController : NSViewController
+
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithListManager:(PPListManager *)manager;
 
 @property (weak) IBOutlet NSButton *closeConfigWindow_button;
 @property (weak) NSPopover *controllingPopover;

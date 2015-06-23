@@ -16,7 +16,7 @@
 		BE52D51C1B3463B7003B5E12 /* PPApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = BE52D51B1B3463B7003B5E12 /* PPApplication.m */; };
 		BE52D5201B3465D1003B5E12 /* PPConfigureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE52D51E1B3465D1003B5E12 /* PPConfigureViewController.m */; };
 		BE52D5211B3465D1003B5E12 /* PPConfigureViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE52D51F1B3465D1003B5E12 /* PPConfigureViewController.xib */; };
-		BE52D5241B346A79003B5E12 /* PPStatusItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BE52D5231B346A79003B5E12 /* PPStatusItem.m */; };
+		BE52D5241B346A79003B5E12 /* PPStatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = BE52D5231B346A79003B5E12 /* PPStatusItemView.m */; };
 		BE52D5261B3470AE003B5E12 /* StatusBarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE52D5251B3470AE003B5E12 /* StatusBarIcon.png */; };
 		BE52D52A1B3483FF003B5E12 /* PPPrinterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BE52D5291B3483FF003B5E12 /* PPPrinterManager.m */; };
 		BE52D52D1B34914D003B5E12 /* PPListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BE52D52C1B34914D003B5E12 /* PPListManager.m */; };
@@ -25,6 +25,12 @@
 		BE52D5361B34C7B4003B5E12 /* NSWindow+canBecomeKeyWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BE52D5351B34C7B4003B5E12 /* NSWindow+canBecomeKeyWindow.m */; };
 		BEDAFB831B351A0A00CCE9AC /* PPDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = BEDAFB821B351A0A00CCE9AC /* PPDefaults.m */; };
 		BEDAFB8D1B35D23F00CCE9AC /* PPRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BEDAFB8C1B35D23F00CCE9AC /* PPRequestManager.m */; };
+		BEDAFB901B36EFAC00CCE9AC /* PPStatusItemViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BEDAFB8F1B36EFAC00CCE9AC /* PPStatusItemViewModel.m */; };
+		BEDAFB941B379C5600CCE9AC /* NSTextField+AnimatedString.m in Sources */ = {isa = PBXBuildFile; fileRef = BEDAFB931B379C5600CCE9AC /* NSTextField+AnimatedString.m */; };
+		BEDAFB961B379D0C00CCE9AC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEDAFB951B379D0C00CCE9AC /* QuartzCore.framework */; };
+		BEDAFB9A1B384FE400CCE9AC /* OCSubscriptionPriner.m in Sources */ = {isa = PBXBuildFile; fileRef = BEDAFB991B384FE400CCE9AC /* OCSubscriptionPriner.m */; };
+		BEDAFBA11B389F2700CCE9AC /* PPBonjourBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = BEDAFBA01B389F2700CCE9AC /* PPBonjourBrowser.m */; };
+		BEDAFBAB1B38D96600CCE9AC /* PPConfigureViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BEDAFBAA1B38D96600CCE9AC /* PPConfigureViewModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,8 +62,8 @@
 		BE52D51D1B3465D1003B5E12 /* PPConfigureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPConfigureViewController.h; sourceTree = "<group>"; };
 		BE52D51E1B3465D1003B5E12 /* PPConfigureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPConfigureViewController.m; sourceTree = "<group>"; };
 		BE52D51F1B3465D1003B5E12 /* PPConfigureViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPConfigureViewController.xib; sourceTree = "<group>"; };
-		BE52D5221B346A79003B5E12 /* PPStatusItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStatusItem.h; sourceTree = "<group>"; };
-		BE52D5231B346A79003B5E12 /* PPStatusItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStatusItem.m; sourceTree = "<group>"; };
+		BE52D5221B346A79003B5E12 /* PPStatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStatusItemView.h; sourceTree = "<group>"; };
+		BE52D5231B346A79003B5E12 /* PPStatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStatusItemView.m; sourceTree = "<group>"; };
 		BE52D5251B3470AE003B5E12 /* StatusBarIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StatusBarIcon.png; sourceTree = "<group>"; };
 		BE52D5281B3483FF003B5E12 /* PPPrinterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPPrinterManager.h; sourceTree = "<group>"; };
 		BE52D5291B3483FF003B5E12 /* PPPrinterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPPrinterManager.m; sourceTree = "<group>"; };
@@ -71,8 +77,19 @@
 		BE52D5351B34C7B4003B5E12 /* NSWindow+canBecomeKeyWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+canBecomeKeyWindow.m"; sourceTree = "<group>"; };
 		BEDAFB811B351A0A00CCE9AC /* PPDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDefaults.h; sourceTree = "<group>"; };
 		BEDAFB821B351A0A00CCE9AC /* PPDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDefaults.m; sourceTree = "<group>"; };
-		BEDAFB8B1B35D23F00CCE9AC /* PPRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPRequestManager.h; path = "Printer Portal/PPRequestManager.h"; sourceTree = "<group>"; };
-		BEDAFB8C1B35D23F00CCE9AC /* PPRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPRequestManager.m; path = "Printer Portal/PPRequestManager.m"; sourceTree = "<group>"; };
+		BEDAFB8B1B35D23F00CCE9AC /* PPRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRequestManager.h; sourceTree = "<group>"; };
+		BEDAFB8C1B35D23F00CCE9AC /* PPRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRequestManager.m; sourceTree = "<group>"; };
+		BEDAFB8E1B36EFAC00CCE9AC /* PPStatusItemViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStatusItemViewModel.h; sourceTree = "<group>"; };
+		BEDAFB8F1B36EFAC00CCE9AC /* PPStatusItemViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStatusItemViewModel.m; sourceTree = "<group>"; };
+		BEDAFB921B379C5600CCE9AC /* NSTextField+AnimatedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTextField+AnimatedString.h"; path = "Categories/NSTextField+AnimatedString.h"; sourceTree = "<group>"; };
+		BEDAFB931B379C5600CCE9AC /* NSTextField+AnimatedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTextField+AnimatedString.m"; path = "Categories/NSTextField+AnimatedString.m"; sourceTree = "<group>"; };
+		BEDAFB951B379D0C00CCE9AC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		BEDAFB981B384FE400CCE9AC /* OCSubscriptionPriner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCSubscriptionPriner.h; sourceTree = "<group>"; };
+		BEDAFB991B384FE400CCE9AC /* OCSubscriptionPriner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCSubscriptionPriner.m; sourceTree = "<group>"; };
+		BEDAFB9F1B389F2700CCE9AC /* PPBonjourBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPBonjourBrowser.h; sourceTree = "<group>"; };
+		BEDAFBA01B389F2700CCE9AC /* PPBonjourBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPBonjourBrowser.m; sourceTree = "<group>"; };
+		BEDAFBA91B38D96600CCE9AC /* PPConfigureViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPConfigureViewModel.h; sourceTree = "<group>"; };
+		BEDAFBAA1B38D96600CCE9AC /* PPConfigureViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPConfigureViewModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEDAFB961B379D0C00CCE9AC /* QuartzCore.framework in Frameworks */,
 				52522F527F6FD132C1B4CFE0 /* libPods-Printer Portal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -106,8 +124,6 @@
 		BE52D4EE1B346176003B5E12 = {
 			isa = PBXGroup;
 			children = (
-				BEDAFB8B1B35D23F00CCE9AC /* PPRequestManager.h */,
-				BEDAFB8C1B35D23F00CCE9AC /* PPRequestManager.m */,
 				BE52D4F91B346176003B5E12 /* Printer Portal */,
 				BE52D50D1B346176003B5E12 /* Printer PortalTests */,
 				BE52D4F81B346176003B5E12 /* Products */,
@@ -128,6 +144,7 @@
 		BE52D4F91B346176003B5E12 /* Printer Portal */ = {
 			isa = PBXGroup;
 			children = (
+				BEDAFB971B384D8200CCE9AC /* Categories */,
 				BE52D5271B3470F8003B5E12 /* Base Subclasses */,
 				BE52D4FC1B346176003B5E12 /* PPAppDelegate.h */,
 				BE52D4FD1B346176003B5E12 /* PPAppDelegate.m */,
@@ -135,11 +152,9 @@
 				BE52D52C1B34914D003B5E12 /* PPListManager.m */,
 				BE52D5281B3483FF003B5E12 /* PPPrinterManager.h */,
 				BE52D5291B3483FF003B5E12 /* PPPrinterManager.m */,
-				BE52D5221B346A79003B5E12 /* PPStatusItem.h */,
-				BE52D5231B346A79003B5E12 /* PPStatusItem.m */,
-				BE52D51D1B3465D1003B5E12 /* PPConfigureViewController.h */,
-				BE52D51E1B3465D1003B5E12 /* PPConfigureViewController.m */,
-				BE52D51F1B3465D1003B5E12 /* PPConfigureViewController.xib */,
+				BEDAFB9F1B389F2700CCE9AC /* PPBonjourBrowser.h */,
+				BEDAFBA01B389F2700CCE9AC /* PPBonjourBrowser.m */,
+				BEDAFB911B36F04400CCE9AC /* Status Item */,
 				BE52D52E1B34A8DE003B5E12 /* PPErrorHandler.h */,
 				BE52D52F1B34A8DE003B5E12 /* PPErrorHandler.m */,
 				BE52D5011B346176003B5E12 /* Images.xcassets */,
@@ -179,21 +194,51 @@
 		BE52D5271B3470F8003B5E12 /* Base Subclasses */ = {
 			isa = PBXGroup;
 			children = (
-				BE52D5341B34C7B4003B5E12 /* NSWindow+canBecomeKeyWindow.h */,
-				BE52D5351B34C7B4003B5E12 /* NSWindow+canBecomeKeyWindow.m */,
-				BE52D5311B34A992003B5E12 /* PPObject.h */,
-				BE52D5321B34A992003B5E12 /* PPObject.m */,
 				BE52D51A1B3463B7003B5E12 /* PPApplication.h */,
 				BE52D51B1B3463B7003B5E12 /* PPApplication.m */,
+				BEDAFB8B1B35D23F00CCE9AC /* PPRequestManager.h */,
+				BEDAFB8C1B35D23F00CCE9AC /* PPRequestManager.m */,
+				BE52D5311B34A992003B5E12 /* PPObject.h */,
+				BE52D5321B34A992003B5E12 /* PPObject.m */,
 				BEDAFB811B351A0A00CCE9AC /* PPDefaults.h */,
 				BEDAFB821B351A0A00CCE9AC /* PPDefaults.m */,
 			);
 			name = "Base Subclasses";
 			sourceTree = "<group>";
 		};
+		BEDAFB911B36F04400CCE9AC /* Status Item */ = {
+			isa = PBXGroup;
+			children = (
+				BEDAFB8E1B36EFAC00CCE9AC /* PPStatusItemViewModel.h */,
+				BEDAFB8F1B36EFAC00CCE9AC /* PPStatusItemViewModel.m */,
+				BE52D5221B346A79003B5E12 /* PPStatusItemView.h */,
+				BE52D5231B346A79003B5E12 /* PPStatusItemView.m */,
+				BE52D51D1B3465D1003B5E12 /* PPConfigureViewController.h */,
+				BEDAFBA91B38D96600CCE9AC /* PPConfigureViewModel.h */,
+				BEDAFBAA1B38D96600CCE9AC /* PPConfigureViewModel.m */,
+				BE52D51E1B3465D1003B5E12 /* PPConfigureViewController.m */,
+				BE52D51F1B3465D1003B5E12 /* PPConfigureViewController.xib */,
+			);
+			name = "Status Item";
+			sourceTree = "<group>";
+		};
+		BEDAFB971B384D8200CCE9AC /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				BE52D5341B34C7B4003B5E12 /* NSWindow+canBecomeKeyWindow.h */,
+				BE52D5351B34C7B4003B5E12 /* NSWindow+canBecomeKeyWindow.m */,
+				BEDAFB921B379C5600CCE9AC /* NSTextField+AnimatedString.h */,
+				BEDAFB931B379C5600CCE9AC /* NSTextField+AnimatedString.m */,
+				BEDAFB981B384FE400CCE9AC /* OCSubscriptionPriner.h */,
+				BEDAFB991B384FE400CCE9AC /* OCSubscriptionPriner.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		E9DC85F21D810CC2AEC04456 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BEDAFB951B379D0C00CCE9AC /* QuartzCore.framework */,
 				83F88C0C1D957B03E7411022 /* libPods-Printer Portal.a */,
 			);
 			name = Frameworks;
@@ -336,17 +381,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE52D52A1B3483FF003B5E12 /* PPPrinterManager.m in Sources */,
-				BE52D5241B346A79003B5E12 /* PPStatusItem.m in Sources */,
+				BE52D5241B346A79003B5E12 /* PPStatusItemView.m in Sources */,
 				BEDAFB831B351A0A00CCE9AC /* PPDefaults.m in Sources */,
 				BE52D51C1B3463B7003B5E12 /* PPApplication.m in Sources */,
+				BEDAFB901B36EFAC00CCE9AC /* PPStatusItemViewModel.m in Sources */,
 				BE52D5331B34A992003B5E12 /* PPObject.m in Sources */,
+				BEDAFB941B379C5600CCE9AC /* NSTextField+AnimatedString.m in Sources */,
 				BE52D5301B34A8DE003B5E12 /* PPErrorHandler.m in Sources */,
 				BE52D5001B346176003B5E12 /* main.m in Sources */,
+				BEDAFBA11B389F2700CCE9AC /* PPBonjourBrowser.m in Sources */,
 				BE52D5361B34C7B4003B5E12 /* NSWindow+canBecomeKeyWindow.m in Sources */,
+				BEDAFBAB1B38D96600CCE9AC /* PPConfigureViewModel.m in Sources */,
 				BE52D52D1B34914D003B5E12 /* PPListManager.m in Sources */,
 				BEDAFB8D1B35D23F00CCE9AC /* PPRequestManager.m in Sources */,
 				BE52D4FE1B346176003B5E12 /* PPAppDelegate.m in Sources */,
 				BE52D5201B3465D1003B5E12 /* PPConfigureViewController.m in Sources */,
+				BEDAFB9A1B384FE400CCE9AC /* OCSubscriptionPriner.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

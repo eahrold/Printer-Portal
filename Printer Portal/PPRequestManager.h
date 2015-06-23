@@ -7,7 +7,17 @@
 //
 
 #import "AFHTTPRequestOperationManager.h"
+@class RACSignal;
+
+@interface PPRequestResponse : NSObject <NSSecureCoding>
+- (instancetype)init NS_UNAVAILABLE;
+@property (copy, nonatomic, readonly) NSArray *printerList;
+@property (copy, nonatomic, readonly) NSString *subnet;
+@property (copy, nonatomic, readonly) NSString *updateServer;
+@end
 
 @interface PPRequestManager : AFHTTPRequestOperationManager
-+(PPRequestManager *)manager;
++ (PPRequestManager *)manager;
+- (RACSignal *)GET_rac:(NSString *)URLString parameters:(id)parameters;
+
 @end

@@ -7,20 +7,34 @@
 //
 
 #import "PPListManager.h"
-#import <AFNetworking/AFNetworking.h>
-#import <ReactiveCocoa/ReactiveCocoa.h>
-#import <Objective-CUPS/OCPrinter.h>
+#import "PPRequestManager.h"
+#import "PPBonjourBrowser.h"
 
+#import "PPDefaults.h"
+
+#import "OCSubscriptionPriner.h"
+
+#import <Objective-CUPS/OCManager.h>
+
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface PPListManager ()
+@property (copy, nonatomic) NSString *serverURL;
 @property (copy, nonatomic) NSArray *printerList;
 @property (copy, nonatomic) NSArray *bonjourPrinterList;
 @property (copy, nonatomic) NSArray *subscriptionPrinterList;
+
+@property (copy, nonatomic) NSArray *installedPrinters;
+@property (strong, nonatomic) PPBonjourBrowser *bonjourBrowser;
+
 @end
 
-@implementation PPListManager
+@implementation PPListManager {
+    PPDefaults *_defaults;
+}
 @synthesize printerListSignal = _printerListSignal;
 @synthesize bonjourListSignal = _bonjourListSignal;
+@synthesize subscriptionListSignal = _subscriptionListSignal;
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -38,17 +52,28 @@
 
         [[AFNetworkReachabilityManager sharedManager] startMonitoring];
 
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        _defaults = [[PPDefaults alloc] init];
 
-        [[[defaults rac_channelTerminalForKey:@"ServerURL"] filter:^BOOL(id value) {
-            // check that the url is valid
-            return value ? YES : NO;
-        }] subscribeNext:^(NSString *urlString) {
-            [self reloadPrinterListForRequestType:kPPListRequestSelfService url:urlString];
-        }];
+        self.printerList = _defaults.CurrentPrinters;
+        self.serverURL = _defaults.ServerURL;
+
+        RAC(_defaults, CurrentPrinters) = RACObserve(self, printerList);
+        RAC(_defaults, ServerURL) = RACObserve(self, serverURL);
+
     }
-
     return self;
+}
+
+- (RACSignal *)subscriptionListSignal {
+    if (!_subscriptionListSignal) {
+        _subscriptionListSignal =
+            [RACObserve(self, subscriptionPrinterList) map:^id(NSDictionary *dict) {
+            return [dict.rac_sequence map:^id(id value) {
+                return [[OCSubscriptionPriner alloc] initWithDictionary:value];
+            }].array;
+            }];
+    }
+    return _subscriptionListSignal;
 }
 
 - (RACSignal *)printerListSignal {
@@ -65,50 +90,17 @@
 
 - (RACSignal *)bonjourListSignal {
     if (!_bonjourListSignal) {
-        _bonjourListSignal =
-            [RACObserve(self, bonjourPrinterList) map:^id(NSDictionary *dict) {
-                return [dict.rac_sequence map:^id(id value) {
-                            return [[OCPrinter alloc] initWithDictionary:value];
-                        }].array;
-            }];
+        _bonjourListSignal = RACObserve(self, bonjourPrinterList);
     }
     return _bonjourListSignal;
 }
 
-- (void)reloadPrinterListForRequestType:(ListRequestType)type
-                                    url:(NSString *)url {
-    NSDictionary *parameters = nil;
-
-    AFHTTPRequestOperationManager *manger =
-        [AFHTTPRequestOperationManager manager];
-    AFPropertyListResponseSerializer *legacySerializer =
-        [AFPropertyListResponseSerializer serializer];
-
-    legacySerializer.acceptableContentTypes =
-        [NSSet setWithObjects:@"text/html", @"application/xml", nil];
-
-    manger.responseSerializer = legacySerializer;
-
-    [manger GET:url
-        parameters:parameters
-        success:^(AFHTTPRequestOperation *operation,
-                  NSDictionary *responseObject) {
-            if (type & kPPListRequestSelfService) {
-                self.printerList = responseObject[@"printerList"];
-                self.bonjourPrinterList = responseObject[@"printerList"];
-            } else if (type & kPPListRequestSubscription) {
-                self.subscriptionPrinterList = responseObject[@"printerList"];
-            }
-        }
-        failure:^(AFHTTPRequestOperation *operation,
-                  NSError *error) { [self.errorHandler registerError:error]; }];
-}
 
 - (void)networkStatusChanged:(AFNetworkReachabilityStatus)status {
     if (status > AFNetworkReachabilityStatusNotReachable) {
-        [self reloadPrinterListForRequestType:kPPListRequestSubscription
-                                          url:@"http://192.168.1.108/printers/"
-                                          @"subscribe/"];
+        [[[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+            return [self enableSubscription_signal:_defaults.Subscribe];
+        }] execute:self];
     } else {
         self.bonjourPrinterList = nil;
         self.subscriptionPrinterList = nil;
@@ -124,13 +116,70 @@
 
     NSString *urlString =
         [[event paramDescriptorForKeyword:keyDirectObject].stringValue
-            stringByReplacingOccurrencesOfString:@"printerinstaller"
+            stringByReplacingOccurrencesOfString:@"printerportal"
                                       withString:@"http"];
 
-    NSURL *url = [NSURL URLWithString:urlString];
-
-    if (url) {
-        NSLog(@"URL: %@", url.absoluteString);
+    BOOL enabled = NO;
+    BOOL subscriptionEvent = NO;
+    if ([urlString.lastPathComponent isEqualToString:kPPDefaultsKey_subscribe]) {
+        enabled = YES;
+        subscriptionEvent = YES;
+    } else if ([urlString.lastPathComponent isEqualToString:kPPDefaultsKey_unsubscribe]){
+        enabled = NO;
+        subscriptionEvent = YES;
     }
+
+    if (subscriptionEvent) {
+        _defaults.SubscriptionHost = urlString;
+        [[[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+            return [self enableSubscription_signal:enabled];
+        }] execute:self];
+    }
+}
+
+- (RACSignal *)configureServerURL_signal:(NSString *)url {
+    RACSignal *signal = [[PPRequestManager manager] GET_rac:url parameters:nil];
+
+    [[signal filter:^BOOL(PPRequestResponse *response) {
+        return (response.printerList != nil);
+    }] subscribeNext:^(PPRequestResponse *response) {
+        self.printerList = response.printerList;
+        self.serverURL = url;
+    }];
+
+    return signal;
+}
+
+- (RACSignal *)enableSubscription_signal:(BOOL)enable {
+    RACSignal *signal = nil;
+    if (enable == NO) {
+        signal = [RACSignal empty];
+        self.subscriptionPrinterList = nil;
+    } else {
+        signal = [[PPRequestManager manager] GET_rac:_defaults.SubscriptionURL parameters:nil];
+
+        [signal subscribeNext:^(PPRequestResponse *response) {
+            self.subscriptionPrinterList = response.printerList;
+        } error:^(NSError *error) {
+            if (error) {
+                self.subscriptionPrinterList = nil;
+            }
+        }];
+    }
+
+    return signal;
+}
+
+- (RACSignal *)enableBonjour_signal:(BOOL)enable {
+    if (!enable) {
+        self.bonjourPrinterList = nil;
+        _bonjourBrowser = nil;
+    } else {
+        if (!_bonjourBrowser) {
+            _bonjourBrowser = [[PPBonjourBrowser alloc] init];
+            RAC(self, bonjourPrinterList) = RACObserve(_bonjourBrowser, bonjourPrinters);
+        }
+    }
+    return [RACSignal empty];
 }
 @end

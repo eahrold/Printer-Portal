@@ -1,6 +1,6 @@
 ##Give your clients access to printers.
 
-In a world of laptops the challenge of granting access to numerous printers in multiple locations can be daunting. Historically there have been a few ways to configure client computers to handle this.  
+In a world of laptops the challenge of granting access to numerous printers in multiple locations for a myriad of clients can be daunting. Historically there have been a few ways to configure client computers to handle this.  
 
 * Have some sort of shell script (i.e. .pkg postinstall) that will add all of the printers to the machine and then have the client to choose the right one in the print dialog. But when there are 10-20+ printers potentially available that can easily get confusing.
 
@@ -12,7 +12,8 @@ In a world of laptops the challenge of granting access to numerous printers in m
 
 -
 
-###Enter Printer Portal.
+###Enter Printer Portal...
+![](Printer Portal/StatusBarIcon32.png) Printer portal is an easy to use menu bar application that is even easier with helping guide your clients on setup and configuration.
 
 1. Send your client a link to download and install the Printer Portal client.  
 
@@ -22,15 +23,18 @@ In a world of laptops the challenge of granting access to numerous printers in m
 
 -
 
-### Configuration:
-- There are a few ways a host can provide the printer lists
-	1. By serving a static Apple Property List formatted XML file
-	2. Generating JSON Data by any means 
-		- The server must set an acceptable MIME type for the "Content-Type" header of the response. Either `application/json`, `text/json` or `text/javascript`
-	3. Using the companion [__P__rinter __P__ortal __S__erver](https://github.com/eahrold/printer_portal_server)
+### Server Configuration:
+The recommended way is to use the companion [__P__rinter __P__ortal __S__erver](https://github.com/eahrold/printer-portal-server), which is a Django web app.
+
+However if you're just interested in testing the client, you can provide the backing data in other ways.
+
+1. Serving a static Apple Property List formatted XML file.
+2. Generating JSON Data using existing host tools
+	- The server must set an acceptable MIME type for the "Content-Type" header of the response. Either `application/json`, `text/json` or `text/javascript`
 	
 - *note: The Printer Portal client app will convert the "printerportal" string to "http" so to have requests directed to a secure server the scheme would be `printerportals`*  
 
+-
 __Serialized Printer Keys:__  
 - Required
 	* __printer__ : The name for the printer. 

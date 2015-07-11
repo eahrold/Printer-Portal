@@ -47,8 +47,7 @@
                  andEventID:kAEGetURL];
 
         [[AFNetworkReachabilityManager sharedManager]
-            setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus
-                                                   status) {
+            setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
                 [self networkStatusChanged:status];
             }];
 
@@ -71,10 +70,10 @@
         RAC(self, bonjourEnabled) = RACObserve(self.bonjourBrowser, isSearching);
         RAC(self, bonjourPrinterList) = RACObserve(self.bonjourBrowser, bonjourPrinters);
 
-        RAC(self, subscriptionsEnabled, @(_defaults.Subscribe)) = [[RACObserve(self, subscriptionPrinterList) skip:1] map:^id(id value) {
-            return [NSNumber numberWithBool:(value != nil)];
-        }];
-        
+        RAC(self, subscriptionsEnabled, @(_defaults.Subscribe)) =
+            [[RACObserve(self, subscriptionPrinterList) skip:1] map:^id(id value) {
+                return [NSNumber numberWithBool:(value != nil)];
+            }];
     }
     return self;
 }
@@ -83,9 +82,10 @@
     if (!_subscriptionListSignal) {
         _subscriptionListSignal =
             [RACObserve(self, subscriptionPrinterList) map:^id(NSDictionary *dict) {
-            return [dict.rac_sequence map:^id(id value) {
-                return [[OCSubscriptionPriner alloc] initWithDictionary:value];
-            }].array;
+                return
+                    [dict.rac_sequence map:^id(id value) {
+                        return [[OCSubscriptionPriner alloc] initWithDictionary:value];
+                    }].array;
             }];
     }
     return _subscriptionListSignal;
@@ -93,12 +93,12 @@
 
 - (RACSignal *)printerListSignal {
     if (!_printerListSignal) {
-        _printerListSignal =
-            [RACObserve(self, printerList) map:^id(NSDictionary *dict) {
-                return [dict.rac_sequence map:^id(id value) {
-                            return [[OCPrinter alloc] initWithDictionary:value];
-                        }].array;
-            }];
+        _printerListSignal = [RACObserve(self, printerList) map:^id(NSDictionary *dict) {
+            return
+                [dict.rac_sequence map:^id(id value) {
+                    return [[OCPrinter alloc] initWithDictionary:value];
+                }].array;
+        }];
     }
     return _printerListSignal;
 }
@@ -109,7 +109,6 @@
     }
     return _bonjourListSignal;
 }
-
 
 - (void)networkStatusChanged:(AFNetworkReachabilityStatus)status {
     if (status > AFNetworkReachabilityStatusNotReachable) {
@@ -129,16 +128,15 @@
      * 3) User unsubscribing
      */
 
-    NSString *urlString =
-        [[event paramDescriptorForKeyword:keyDirectObject].stringValue
-            stringByReplacingOccurrencesOfString:@"printerportal"
-                                      withString:@"http"];
+    NSString *urlString = [[event paramDescriptorForKeyword:keyDirectObject]
+                               .stringValue stringByReplacingOccurrencesOfString:@"printerportal"
+                                                                      withString:@"http"];
 
     BOOL subscriptionEvent = NO;
-    if ([urlString.lastPathComponent isEqualToString:kPPDefaultsKey_subscribe]) {
+    if ([urlString.lastPathComponent isEqualToString:kPPDefaultsKeySubscribe]) {
         _subscriptionsEnabled = YES;
         subscriptionEvent = YES;
-    } else if ([urlString.lastPathComponent isEqualToString:kPPDefaultsKey_unsubscribe]){
+    } else if ([urlString.lastPathComponent isEqualToString:kPPDefaultsKeyUnsubscribe]) {
         _subscriptionsEnabled = NO;
         subscriptionEvent = YES;
     }

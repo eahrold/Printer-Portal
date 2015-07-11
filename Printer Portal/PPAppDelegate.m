@@ -24,7 +24,6 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
     PPPrinterManager *printerManager = [[PPPrinterManager alloc] init];
     PPListManager *listManager = [[PPListManager alloc] init];
 
@@ -35,12 +34,12 @@
         [printerManager manageSubscriptionList:list];
     }];
 
-    [[PPErrorHandler sharedErrorHandler].errorSignal subscribeNext:^(NSError *error) {
+    [[PPErrorHandler sharedErrorHandler]
+            .errorSignal subscribeNext:^(NSError *error) {
         if (error) {
             [NSApp presentError:error];
         }
     }];
-    
 }
 
 - (void)applicationDidResignActive:(NSNotification *)notification {

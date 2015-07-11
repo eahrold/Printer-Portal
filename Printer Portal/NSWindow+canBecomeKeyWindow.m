@@ -3,7 +3,7 @@
 //  MunkiMenu
 //
 //  Created by Eldon on 12/10/13.
-//  Copyright (c) 2013 Eldon Ahrold. All rights reserved.
+//  Copyright (c) 2013-2015 Eldon Ahrold. All rights reserved.
 //
 //  Taken From
 //  http://stackoverflow.com/questions/7214273/nstextfield-on-nspopover
@@ -19,8 +19,7 @@
 @implementation NSWindow (canBecomeKeyWindow)
 
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored \
-    "-Wobjc-protocol-method-implementation"
+#pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
 - (BOOL)canBecomeKeyWindow {
     Class c = [self class];
     if ((c == NSClassFromString(@"NSStatusBarWindow")) ||

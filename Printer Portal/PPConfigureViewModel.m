@@ -10,7 +10,6 @@
 #import "PPListManager.h"
 #import "PPConfigureViewController.h"
 
-
 @interface PPConfigureViewModel ()
 @property (nonatomic, readwrite) BOOL bonjourEnabled;
 @property (nonatomic, readwrite) BOOL subscriptionEnabled;
@@ -29,10 +28,9 @@
 
 - (instancetype)initWithListManager:(PPListManager *)listManager {
     if (self = [super init]) {
-
         RAC(self, serverURLIsValid) = [RACObserve(self, serverURL) map:^id(id value) {
             BOOL valid = ([value rangeOfString:@"://"].location != NSNotFound) &&
-            ([value componentsSeparatedByString:@"."].count > 1);
+                         ([value componentsSeparatedByString:@"."].count > 1);
             return @(valid);
         }];
 

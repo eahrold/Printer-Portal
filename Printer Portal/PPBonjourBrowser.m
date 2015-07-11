@@ -17,8 +17,7 @@
 @end
 
 @implementation PPBonjourBrowser
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         _services = [NSMutableSet new];
@@ -29,13 +28,12 @@
 
 - (void)start {
     [self searchForServicesOfType:@"_printer._tcp." inDomain:@"local"];
-//    [self searchForServicesOfType:@"_ipp._tcp." inDomain:@"local"];
+    //    [self searchForServicesOfType:@"_ipp._tcp." inDomain:@"local"];
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)browser
            didFindService:(NSNetService *)service
-               moreComing:(BOOL)moreComing
-{
+               moreComing:(BOOL)moreComing {
     [_services addObject:service];
     [service setDelegate:self];
     [service startMonitoring];
@@ -46,13 +44,11 @@
     }
 }
 
-- (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)browser
-{
+- (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)browser {
     self.isSearching = YES;
 }
 
-- (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)browser
-{
+- (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)browser {
     self.isSearching = NO;
     self.bonjourPrinters = nil;
     _printers = nil;
@@ -64,11 +60,9 @@
     [_services removeAllObjects];
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)browser
-             didNotSearch:(NSDictionary *)errorDict
-{
+- (void)netServiceBrowser:(NSNetServiceBrowser *)browser didNotSearch:(NSDictionary *)errorDict {
     self.isSearching = NO;
-    NSLog(@"[BONJOUR ERROR]: %@" ,
+    NSLog(@"[BONJOUR ERROR]: %@",
           [NSError errorWithDomain:[[NSProcessInfo processInfo] processName]
                               code:[[errorDict objectForKey:NSNetServicesErrorCode] integerValue]
                           userInfo:errorDict]);
@@ -76,17 +70,14 @@
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)browser
          didRemoveService:(NSNetService *)service
-               moreComing:(BOOL)moreComing
-{
+               moreComing:(BOOL)moreComing {
     [_services removeObject:service];
     if (!moreComing) {
         self.bonjourPrinters = [_printers copy];
     }
 }
 
-
-- (void)netServiceDidResolveAddress:(NSNetService *)netService
-{
+- (void)netServiceDidResolveAddress:(NSNetService *)netService {
     OCBonjourPrinter *printer = [[OCBonjourPrinter alloc] initWithNetService:netService];
     if (!_printers) {
         _printers = [[NSMutableSet alloc] init];
@@ -100,7 +91,4 @@
     }
 }
 
-
-
 @end
-

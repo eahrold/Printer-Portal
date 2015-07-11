@@ -8,8 +8,8 @@
 
 #import "PPDefaults.h"
 
-NSString *const kPPDefaultsKey_subscribe = @"subscribe";
-NSString *const kPPDefaultsKey_unsubscribe = @"unsubscribe";
+NSString *const kPPDefaultsKeySubscribe = @"subscribe";
+NSString *const kPPDefaultsKeyUnsubscribe = @"unsubscribe";
 
 @implementation PPDefaults
 
@@ -29,9 +29,8 @@ NSString *const kPPDefaultsKey_unsubscribe = @"unsubscribe";
     [_defaults setValue:@(Subscribe) forKey:NSStringFromSelector(@selector(Subscribe))];
 }
 
-
 - (void)setSubscriptionHost:(NSString *)SubscriptionHost {
-    if ([@[kPPDefaultsKey_subscribe, kPPDefaultsKey_unsubscribe] containsObject:SubscriptionHost.lastPathComponent]) {
+    if ([@[ kPPDefaultsKeySubscribe, kPPDefaultsKeyUnsubscribe ] containsObject:SubscriptionHost.lastPathComponent]) {
         SubscriptionHost = SubscriptionHost.stringByDeletingLastPathComponent;
     }
     [_defaults setValue:SubscriptionHost forKey:NSStringFromSelector(@selector(SubscriptionHost))];
@@ -39,16 +38,15 @@ NSString *const kPPDefaultsKey_unsubscribe = @"unsubscribe";
 
 - (NSString *)SubscriptionHost {
     NSString *host = [_defaults valueForKey:NSStringFromSelector(@selector(SubscriptionHost))];
-    if (host && [@[kPPDefaultsKey_subscribe, kPPDefaultsKey_unsubscribe] containsObject:host.lastPathComponent]) {
+    if (host && [@[ kPPDefaultsKeySubscribe, kPPDefaultsKeyUnsubscribe ] containsObject:host.lastPathComponent]) {
         host = host.stringByDeletingLastPathComponent;
     }
 
-    return  host ?:
-        [self.ServerURL.stringByDeletingLastPathComponent stringByAppendingPathComponent:kPPDefaultsKey_subscribe];
+    return host ?: [self.ServerURL.stringByDeletingLastPathComponent stringByAppendingPathComponent:kPPDefaultsKeySubscribe];
 }
 
 - (NSString *)SubscriptionURL {
-    return [self.SubscriptionHost stringByAppendingPathComponent:kPPDefaultsKey_subscribe];
+    return [self.SubscriptionHost stringByAppendingPathComponent:kPPDefaultsKeySubscribe];
 }
 
 #pragma mark - Server url

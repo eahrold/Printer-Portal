@@ -13,31 +13,29 @@
 
 @implementation PPRequestResponse
 
--(id)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super init]) {
         _printerList = [aDecoder decodeObjectOfClass:[NSArray class]
-                                             forKey:NSStringFromSelector(@selector(printerList))];
+                                              forKey:NSStringFromSelector(@selector(printerList))];
 
         _subnet = [aDecoder decodeObjectOfClass:[NSString class]
                                          forKey:NSStringFromSelector(@selector(subnet))];
 
-        _updateServer = [aDecoder decodeObjectOfClass:[NSString class]
-                               forKey:NSStringFromSelector(@selector(updateServer))];
-
+        _updateServer =
+            [aDecoder decodeObjectOfClass:[NSString class]
+                                   forKey:NSStringFromSelector(@selector(updateServer))];
     }
     return self;
 }
 
-+ (BOOL)supportsSecureCoding { return YES;}
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
 
 - (void)encodeWithCoder:(NSCoder *)aEncoder {
-    [aEncoder encodeObject:_printerList
-                    forKey:NSStringFromSelector(@selector(printerList))];
-    [aEncoder encodeObject:_subnet
-                    forKey:NSStringFromSelector(@selector(subnet))];
-    [aEncoder encodeObject:_updateServer
-                    forKey:NSStringFromSelector(@selector(updateServer))];
-
+    [aEncoder encodeObject:_printerList forKey:NSStringFromSelector(@selector(printerList))];
+    [aEncoder encodeObject:_subnet forKey:NSStringFromSelector(@selector(subnet))];
+    [aEncoder encodeObject:_updateServer forKey:NSStringFromSelector(@selector(updateServer))];
 }
 
 - (instancetype)initWithResponse:(NSDictionary *)response {
@@ -54,47 +52,54 @@
 @end
 
 @implementation PPRequestManager
-+(PPRequestManager *)manager {
++ (PPRequestManager *)manager {
     PPRequestManager *manager = [super manager];
 
-    // Setup request serializer
     AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
     requestSerializer.timeoutInterval = 5;
-    
+
     manager.requestSerializer = requestSerializer;
 
-    // Set up the legacy serializer.
-    AFPropertyListResponseSerializer *legacySerializer = [AFPropertyListResponseSerializer serializer];
-    legacySerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",
-                                               @"application/xml",
-                                               @"application/x-plist",
-                                               nil];
+    AFJSONResponseSerializer *jsonResponseSerializer = [AFJSONResponseSerializer serializer];
 
-    AFCompoundResponseSerializer *serializer =
-    [AFCompoundResponseSerializer compoundSerializerWithResponseSerializers:@[
-                                                                              legacySerializer,
-                                                                              [AFJSONResponseSerializer serializer]]];
+    AFPropertyListResponseSerializer *plistResponseSerializer =
+        [AFPropertyListResponseSerializer serializer];
+    plistResponseSerializer.acceptableContentTypes =
+        [NSSet setWithObjects:@"text/html", @"application/xml", @"application/x-plist", nil];
 
-    manager.responseSerializer = serializer;
+    AFCompoundResponseSerializer *responseSerializer =
+        [AFCompoundResponseSerializer compoundSerializerWithResponseSerializers:
+                                          @[ jsonResponseSerializer, plistResponseSerializer ]];
+
+    manager.responseSerializer = responseSerializer;
 
     return manager;
 }
 
 - (RACSignal *)GET_rac:(NSString *)URLString parameters:(id)parameters {
-    return [RACSignal startLazilyWithScheduler:[RACScheduler scheduler] block:^(id<RACSubscriber> subscriber) {
-        [[PPRequestManager manager] GET:URLString parameters:parameters success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-            if ([responseObject isKindOfClass:[NSDictionary class]]) {
-                [subscriber sendNext:[[PPRequestResponse alloc] initWithResponse:responseObject]];
-                [subscriber sendError:nil];
-            } else {
-                [subscriber sendError:PPErrorFromCode(kPPErrorServerURLInvalid)];
-            }
-            [subscriber sendCompleted];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            [subscriber sendError:error];
-            [subscriber sendCompleted];
-        }];
-    }];
+    return [RACSignal
+        startLazilyWithScheduler:[RACScheduler scheduler]
+                           block:^(id<RACSubscriber> subscriber) {
+                               [[PPRequestManager manager] GET:URLString
+                                   parameters:parameters
+                                   success:^(AFHTTPRequestOperation *operation,
+                                             NSDictionary *responseObject) {
+                                       if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                                           [subscriber
+                                               sendNext:[[PPRequestResponse alloc]
+                                                            initWithResponse:responseObject]];
+                                           [subscriber sendError:nil];
+                                       } else {
+                                           [subscriber
+                                               sendError:PPErrorFromCode(kPPErrorServerURLInvalid)];
+                                       }
+                                       [subscriber sendCompleted];
+                                   }
+                                   failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                       [subscriber sendError:error];
+                                       [subscriber sendCompleted];
+                                   }];
+                           }];
 }
 
 @end

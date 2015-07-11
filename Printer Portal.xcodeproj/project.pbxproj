@@ -23,7 +23,7 @@
 		BE52D5301B34A8DE003B5E12 /* PPErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = BE52D52F1B34A8DE003B5E12 /* PPErrorHandler.m */; };
 		BE52D5331B34A992003B5E12 /* PPObject.m in Sources */ = {isa = PBXBuildFile; fileRef = BE52D5321B34A992003B5E12 /* PPObject.m */; };
 		BE52D5361B34C7B4003B5E12 /* NSWindow+canBecomeKeyWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BE52D5351B34C7B4003B5E12 /* NSWindow+canBecomeKeyWindow.m */; };
-		BEDAFB831B351A0A00CCE9AC /* PPDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = BEDAFB821B351A0A00CCE9AC /* PPDefaults.m */; };
+		BE6C7A341B51733100196326 /* PPDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = BEDAFB821B351A0A00CCE9AC /* PPDefaults.m */; };
 		BEDAFB8D1B35D23F00CCE9AC /* PPRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BEDAFB8C1B35D23F00CCE9AC /* PPRequestManager.m */; };
 		BEDAFB901B36EFAC00CCE9AC /* PPStatusItemViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BEDAFB8F1B36EFAC00CCE9AC /* PPStatusItemViewModel.m */; };
 		BEDAFB941B379C5600CCE9AC /* NSTextField+AnimatedString.m in Sources */ = {isa = PBXBuildFile; fileRef = BEDAFB931B379C5600CCE9AC /* NSTextField+AnimatedString.m */; };
@@ -390,7 +390,7 @@
 			files = (
 				BE52D52A1B3483FF003B5E12 /* PPPrinterManager.m in Sources */,
 				BE52D5241B346A79003B5E12 /* PPStatusItemView.m in Sources */,
-				BEDAFB831B351A0A00CCE9AC /* PPDefaults.m in Sources */,
+				BE6C7A341B51733100196326 /* PPDefaults.m in Sources */,
 				BE52D51C1B3463B7003B5E12 /* PPApplication.m in Sources */,
 				BEDAFB901B36EFAC00CCE9AC /* PPStatusItemViewModel.m in Sources */,
 				BE52D5331B34A992003B5E12 /* PPObject.m in Sources */,

@@ -12,7 +12,6 @@
 @interface PPConfigureViewController : NSViewController
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithListManager:(PPListManager *)manager;
 - (instancetype)initWithViewModel:(PPConfigureViewModel *)viewModel;
 
 @property (weak) IBOutlet NSButton *closeConfigWindow_button;

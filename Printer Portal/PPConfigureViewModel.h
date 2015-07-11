@@ -15,7 +15,7 @@
 @interface PPConfigureViewModel : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
-+ (instancetype)new NS_UNAVAILABLE;
++ (instancetype) new NS_UNAVAILABLE;
 
 - (instancetype)initWithListManager:(PPListManager *)listManager;
 
@@ -32,10 +32,17 @@
 /* Actual error received during processing */
 @property (copy, nonatomic, readonly) NSError *executionError;
 
+/* Is a printer list in the process of getting modified */
 @property (nonatomic, readonly) BOOL isProcessing;
 
 @property (strong, readonly) PPConfigureViewController *controller;
 
+/**
+ *  Signal for monitoring changes in printer list.
+ *
+ *  @note Backing for view's setServer_button.rac_command
+ *  @return Signal for monitoring changes in printer list.
+ */
 - (RACSignal *)configurePrinterListSignal;
 
 - (void)enableSubscription;

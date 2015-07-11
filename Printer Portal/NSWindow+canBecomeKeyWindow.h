@@ -8,6 +8,5 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface NSWindow (canBecomeKeyWindow)
 @end

@@ -10,8 +10,7 @@
 
 @class PPBonjourBrowser;
 
-
-@interface PPBonjourBrowser : NSNetServiceBrowser <NSNetServiceBrowserDelegate, NSNetServiceDelegate>
+@interface PPBonjourBrowser : NSNetServiceBrowser<NSNetServiceBrowserDelegate, NSNetServiceDelegate>
 
 @property (copy, nonatomic) NSArray *bonjourPrinters;
 @property BOOL isSearching;

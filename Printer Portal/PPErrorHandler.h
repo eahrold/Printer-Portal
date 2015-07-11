@@ -27,9 +27,7 @@ NSError *PPErrorFromCode(PPErrorCode code);
 @property (copy, nonatomic, readonly) RACSignal *errorSignal;
 @property (copy, nonatomic, readonly) NSError *currentError;
 
-
 - (void)registerError:(NSError *)error;
 - (void)registerErrorWithCode:(PPErrorCode)code;
-
 
 @end

@@ -11,9 +11,11 @@
 @class PPPrinterManager;
 @class PPStatusItemViewModel;
 
-@interface PPStatusItemView : NSObject <NSMenuDelegate>
+@interface PPStatusItemView : NSObject<NSMenuDelegate>
 
 - (instancetype)init NS_UNAVAILABLE;
++ (instancetype) new NS_UNAVAILABLE;
+
 - (instancetype)initWithViewModel:(PPStatusItemViewModel *)viewModel;
 
 @end

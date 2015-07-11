@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface PPAppDelegate : NSObject <NSApplicationDelegate>
+@interface PPAppDelegate : NSObject<NSApplicationDelegate>
 
 @end
-

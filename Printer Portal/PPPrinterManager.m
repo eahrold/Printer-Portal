@@ -31,17 +31,18 @@ static NSString *const subscriptionPrinterPredicateString = @"_pi-printer";
             }
         };
 
-        OCPrinter *printer =
-            (OCPrinter *)[(NSMenuItem *)sender representedObject];
+        OCPrinter *printer = (OCPrinter *)[(NSMenuItem *)sender representedObject];
 
         if (sender.state) {
-            [[OCManager sharedManager]
-                addPrinter:printer
-                     reply:^(NSError *error) { completionHandler(error); }];
+            [[OCManager sharedManager] addPrinter:printer
+                                            reply:^(NSError *error) {
+                                                completionHandler(error);
+                                            }];
         } else {
-            [[OCManager sharedManager]
-                removePrinter:printer.name
-                        reply:^(NSError *error) { completionHandler(error); }];
+            [[OCManager sharedManager] removePrinter:printer.name
+                                               reply:^(NSError *error) {
+                                                   completionHandler(error);
+                                               }];
         }
     }
 }
@@ -51,20 +52,24 @@ static NSString *const subscriptionPrinterPredicateString = @"_pi-printer";
     NSPredicate *subscriptionPredicate;
 
     if (!subscriptionList) {
-        subscriptionPredicate = [NSPredicate predicateWithFormat:@"%K ENDSWITH %@", NSStringFromSelector(@selector(location)),subscriptionPrinterPredicateString ];
-        [[installedPrinters filteredSetUsingPredicate:subscriptionPredicate] enumerateObjectsUsingBlock:^(OCPrinter *printer, BOOL *stop) {
-            [[OCManager sharedManager] removePrinter:printer.name];
-        }];
+        subscriptionPredicate = [NSPredicate
+            predicateWithFormat:@"%K ENDSWITH %@", NSStringFromSelector(@selector(location)),
+                                subscriptionPrinterPredicateString];
+        [[installedPrinters filteredSetUsingPredicate:subscriptionPredicate]
+            enumerateObjectsUsingBlock:^(OCPrinter *printer, BOOL *stop) {
+                [[OCManager sharedManager] removePrinter:printer.name];
+            }];
     } else {
         for (OCSubscriptionPriner *printer in subscriptionList) {
             __block BOOL skip = NO;
-            [installedPrinters enumerateObjectsUsingBlock:^(OCPrinter *installedPrinter, BOOL *stop) {
-                if ([installedPrinter.name isEqualToString:printer.name]) {
-                    // Found a matching printer, mark stop.
-                    skip = YES;
-                    *stop = YES;
-                }
-            }];
+            [installedPrinters
+                enumerateObjectsUsingBlock:^(OCPrinter *installedPrinter, BOOL *stop) {
+                    if ([installedPrinter.name isEqualToString:printer.name]) {
+                        // Found a matching printer, mark stop.
+                        skip = YES;
+                        *stop = YES;
+                    }
+                }];
             if (skip == NO) {
                 [[OCManager sharedManager] addPrinter:printer];
             }

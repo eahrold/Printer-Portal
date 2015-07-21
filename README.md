@@ -1,5 +1,7 @@
 ##Give your clients access to printers.
 
+_ATTN: This project is still in early development._
+
 In a world of laptops the challenge of granting access to numerous printers in multiple locations for a myriad of clients can be daunting. Historically there have been a few ways to configure client computers to handle this.  
 
 * Have some sort of shell script (i.e. .pkg postinstall) that will add all of the printers to the machine and then have the client to choose the right one in the print dialog. But when there are 10-20+ printers potentially available that can easily get confusing.
@@ -12,8 +14,8 @@ In a world of laptops the challenge of granting access to numerous printers in m
 
 -
 
-###Enter Printer Portal...
-![](Printer Portal/StatusBarIcon32.png) Printer portal is an easy to use menu bar application that is even easier with helping guide your clients on setup and configuration.
+###Enter Printer Portal ![](Printer Portal/StatusBarIcon32.png)
+Printer portal is a simple menu bar application that makes it easy for your clients to add and remove your institutions printers.
 
 1. Send your client a link to download and install the Printer Portal client.  
 
@@ -24,7 +26,7 @@ In a world of laptops the challenge of granting access to numerous printers in m
 -
 
 ### Server Configuration:
-The recommended way is to use the companion [__P__rinter __P__ortal __S__erver](https://github.com/eahrold/printer-portal-server), which is a Django web app.
+The recommended way is to use the companion [**P**rinter **P**ortal **S**erver](https://github.com/eahrold/printer-portal-server), which is a small Django web app.
 
 However if you're just interested in testing the client, you can provide the backing data in other ways.
 
@@ -36,6 +38,7 @@ However if you're just interested in testing the client, you can provide the bac
 
 -
 __Serialized Printer Keys:__  
+ 
 - Required
 	* __printer__ : The name for the printer. 
 	* __host__ : IP address or FQDN for the CUPS server.

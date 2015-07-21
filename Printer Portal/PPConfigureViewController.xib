@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="PPConfigureViewController">
+            <connections>
+                <outlet property="closeConfigWindow_button" destination="dqd-hk-X5I" id="w0g-Vq-ebq"/>
+                <outlet property="errorMessage_textField" destination="rJI-We-He3" id="jo9-hQ-d4G"/>
+                <outlet property="launchAtLogin_button" destination="Tlh-Pj-W1g" id="z1f-a4-70A"/>
+                <outlet property="serverSet_button" destination="Ygl-wR-WpQ" id="zvN-g3-Zbj"/>
+                <outlet property="serverURL_textField" destination="hrD-J7-emW" id="cZb-sd-2Sz"/>
+                <outlet property="showBonjourPrinters_button" destination="U7X-Sf-rpx" id="gmD-wA-uoi"/>
+                <outlet property="subscribe_button" destination="tPd-bb-J6s" id="Z77-6p-z2A"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="-1" width="520" height="181"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OZ2-6o-ATo">
+                    <rect key="frame" x="18" y="144" width="460" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Please enter the server address or group code:" id="Cvr-nu-9kM">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hrD-J7-emW">
+                    <rect key="frame" x="21" y="115" width="479" height="22"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="zr9-ho-WiR">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ygl-wR-WpQ">
+                    <rect key="frame" x="422" y="17" width="84" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="72" id="VfI-mh-zfo"/>
+                    </constraints>
+                    <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="94G-Rj-6wk">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                    </buttonCell>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dqd-hk-X5I">
+                    <rect key="frame" x="326" y="17" width="97" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="85" id="NQZ-UC-Lc8"/>
+                    </constraints>
+                    <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vPj-K6-aBO">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U7X-Sf-rpx">
+                    <rect key="frame" x="18" y="65" width="160" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show Bonjour Printers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hiK-m2-aCD">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="sPh-HU-yPk" name="value" keyPath="values.ShowBonjourPrinters" id="15M-cF-TSg">
+                            <dictionary key="options">
+                                <bool key="NSConditionallySetsEnabled" value="NO"/>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="tPd-bb-J6s">
+                    <rect key="frame" x="18" y="44" width="124" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="120" id="eqa-JC-sE6"/>
+                    </constraints>
+                    <buttonCell key="cell" type="check" title="Subscribe" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="FnD-0S-ITS">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="sPh-HU-yPk" name="value" keyPath="values.Subscribe" id="jUl-4V-Ffh">
+                            <dictionary key="options">
+                                <bool key="NSConditionallySetsEnabled" value="NO"/>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </button>
+                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tlh-Pj-W1g">
+                    <rect key="frame" x="19" y="22" width="124" height="18"/>
+                    <buttonCell key="cell" type="check" title="Launch At Login" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="E42-x1-UCh">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="sPh-HU-yPk" name="value" keyPath="values.LaunchAtLogin" id="xOh-C4-LvJ">
+                            <dictionary key="options">
+                                <bool key="NSConditionallySetsEnabled" value="NO"/>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rJI-We-He3">
+                    <rect key="frame" x="21" y="90" width="481" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="2Jm-KO-0Xu">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="tPd-bb-J6s" firstAttribute="top" secondItem="U7X-Sf-rpx" secondAttribute="bottom" constant="7" id="0WT-g7-P79"/>
+                <constraint firstItem="dqd-hk-X5I" firstAttribute="baseline" secondItem="Ygl-wR-WpQ" secondAttribute="baseline" id="0e8-t5-oMj"/>
+                <constraint firstItem="U7X-Sf-rpx" firstAttribute="top" secondItem="rJI-We-He3" secondAttribute="bottom" constant="9" id="1Kw-ME-Y4J"/>
+                <constraint firstItem="hrD-J7-emW" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="2kO-4y-xkw"/>
+                <constraint firstItem="dqd-hk-X5I" firstAttribute="bottom" secondItem="Tlh-Pj-W1g" secondAttribute="bottom" id="5C3-o6-JPX"/>
+                <constraint firstItem="OZ2-6o-ATo" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" symbolic="YES" id="5HF-Am-UyO"/>
+                <constraint firstItem="hrD-J7-emW" firstAttribute="top" secondItem="OZ2-6o-ATo" secondAttribute="bottom" constant="7" id="6ok-qu-chI"/>
+                <constraint firstItem="Tlh-Pj-W1g" firstAttribute="top" secondItem="tPd-bb-J6s" secondAttribute="bottom" constant="8" id="6yI-FQ-YQ8"/>
+                <constraint firstItem="rJI-We-He3" firstAttribute="trailing" secondItem="Ygl-wR-WpQ" secondAttribute="trailing" id="Ewy-MX-INZ"/>
+                <constraint firstItem="hrD-J7-emW" firstAttribute="trailing" secondItem="rJI-We-He3" secondAttribute="trailing" id="HRb-hr-uzz"/>
+                <constraint firstItem="Ygl-wR-WpQ" firstAttribute="leading" secondItem="dqd-hk-X5I" secondAttribute="trailing" constant="11" id="Tke-aV-M8p"/>
+                <constraint firstAttribute="trailing" secondItem="hrD-J7-emW" secondAttribute="trailing" constant="20" symbolic="YES" id="ZMx-hw-6uJ"/>
+                <constraint firstItem="OZ2-6o-ATo" firstAttribute="leading" secondItem="U7X-Sf-rpx" secondAttribute="leading" id="cSx-fv-409"/>
+                <constraint firstItem="OZ2-6o-ATo" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="20" symbolic="YES" id="emE-Wb-6j4"/>
+                <constraint firstItem="rJI-We-He3" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="23" id="fPu-ew-JKp"/>
+                <constraint firstItem="rJI-We-He3" firstAttribute="top" secondItem="hrD-J7-emW" secondAttribute="bottom" constant="8" symbolic="YES" id="iYy-sk-bhK"/>
+                <constraint firstItem="hrD-J7-emW" firstAttribute="leading" secondItem="Tlh-Pj-W1g" secondAttribute="leading" id="jBg-dW-oHz"/>
+                <constraint firstAttribute="trailing" secondItem="OZ2-6o-ATo" secondAttribute="trailing" constant="44" id="qNr-So-EK7"/>
+                <constraint firstItem="tPd-bb-J6s" firstAttribute="leading" secondItem="U7X-Sf-rpx" secondAttribute="leading" id="zEV-Q0-ujI"/>
+            </constraints>
+            <point key="canvasLocation" x="300" y="292.5"/>
+        </customView>
+        <userDefaultsController representsSharedInstance="YES" id="sPh-HU-yPk"/>
+    </objects>
+</document>

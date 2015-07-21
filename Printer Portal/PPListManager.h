@@ -36,13 +36,13 @@ typedef NS_OPTIONS(NSInteger, ListRequestType) {
  */
 - (RACSignal *)configureServerURL_signal:(NSString *)url;
 
-// Should subscriptions be enabled?
+// Are subscriptions currently enabled
 @property (nonatomic, readonly) BOOL subscriptionsEnabled;
 
 // Signal for observing changes in the enabled state of subscription printer list.
 - (RACSignal *)enableSubscription_signal;
 
-// Should bonjour printers be enabled?
+// Are bonjour printers printers currently displayed
 @property (nonatomic, readonly) BOOL bonjourEnabled;
 // Signal for observing changes in the enabled state of bonjour printer list.
 - (RACSignal *)enableBonjour_signal;

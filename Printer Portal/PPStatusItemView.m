@@ -11,6 +11,7 @@
 
 #import "PPConfigureViewController.h"
 #import "PPConfigureViewModel.h"
+#import "PPPrinterManager.h"
 
 #import <Objective-CUPS/OCPrinter.h>
 

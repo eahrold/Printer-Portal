@@ -51,7 +51,9 @@
     @weakify(self);
     [[self.listManager enableSubscription_signal] subscribeError:^(NSError *error) {
         @strongify(self);
-        self.uiError = PPErrorFromCode(kPPErrorCouldNotEnableSubscriptions);
+        if (error) {
+            self.uiError = PPErrorFromCode(kPPErrorCouldNotEnableSubscriptions);
+        }
     }];
 }
 
@@ -59,7 +61,9 @@
     @weakify(self);
     [[_listManager enableBonjour_signal] subscribeError:^(NSError *error) {
         @strongify(self);
-        self.uiError = PPErrorFromCode(kPPErrorCouldNotEnableBonjour);
+        if (error) {
+            self.uiError = PPErrorFromCode(kPPErrorCouldNotEnableBonjour);
+        }
     }];
 }
 

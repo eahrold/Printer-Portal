@@ -5,14 +5,14 @@
 //  Created by Eldon on 6/19/15.
 //  Copyright (c) 2015 Eldon Ahrold. All rights reserved.
 //
+#import <AppKit/AppKit.h>
 
 #import "PPPrinterManager.h"
 #import "OCSubscriptionPriner.h"
 
 #import <Objective-CUPS/OCManager.h>
-#import <AppKit/AppKit.h>
 
-static NSString *const subscriptionPrinterPredicateString = @"_pi-printer";
+static NSString *const subscriptionPrinterPredicateString = @"_pp-printer";
 
 @implementation PPPrinterManager
 
@@ -21,11 +21,19 @@ static NSString *const subscriptionPrinterPredicateString = @"_pi-printer";
         /* The behavior is a little different a NSMenuItem vs. NSButton.
          * the menuItem's state property isn't automatically set when the
          * menu items is selected so set it now. */
-        sender.state = !sender.state;
+        BOOL state = !sender.state;
+
+        /* Setting the sender target to nil here
+         * is to disable the menu item. */
+         sender.target = nil;
 
         void (^completionHandler)(NSError *) = ^(NSError *error) {
             [self.errorHandler registerError:error];
-            if (error) {
+
+            // Reset (enable) the target
+            sender.target = self;
+
+            if (!error) {
                 // reset the sender state.
                 sender.state = !sender.state;
             }
@@ -33,7 +41,7 @@ static NSString *const subscriptionPrinterPredicateString = @"_pi-printer";
 
         OCPrinter *printer = (OCPrinter *)[(NSMenuItem *)sender representedObject];
 
-        if (sender.state) {
+        if (state) {
             [[OCManager sharedManager] addPrinter:printer
                                             reply:^(NSError *error) {
                                                 completionHandler(error);

@@ -134,10 +134,10 @@
 
     BOOL subscriptionEvent = NO;
     if ([urlString.lastPathComponent isEqualToString:kPPDefaultsKeySubscribe]) {
-        _subscriptionsEnabled = YES;
+        _subscriptionsEnabled = NO;
         subscriptionEvent = YES;
     } else if ([urlString.lastPathComponent isEqualToString:kPPDefaultsKeyUnsubscribe]) {
-        _subscriptionsEnabled = NO;
+        _subscriptionsEnabled = YES;
         subscriptionEvent = YES;
     }
 
